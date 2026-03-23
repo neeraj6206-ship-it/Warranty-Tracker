@@ -1,0 +1,5 @@
+node_modules/
+.env
+warranty.db
+warranty.db-wal
+warranty.db-shm

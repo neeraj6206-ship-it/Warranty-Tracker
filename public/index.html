@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goyal Enterprises - Warranty Tracker</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo" onclick="showPage('home')">
+        <i class="fas fa-shield-alt"></i>
+        <span>Goyal Enterprises</span>
+      </a>
+      <div class="nav-links">
+        <a href="#" onclick="showPage('home')" class="nav-link active" data-page="home">
+          <i class="fas fa-home"></i> Home
+        </a>
+        <a href="#" onclick="showPage('check')" class="nav-link" data-page="check">
+          <i class="fas fa-search"></i> Check Warranty
+        </a>
+        <a href="#" onclick="showPage('about')" class="nav-link" data-page="about">
+          <i class="fas fa-info-circle"></i> About Us
+        </a>
+        <a href="#" onclick="showPage('admin')" class="nav-link" data-page="admin">
+          <i class="fas fa-lock"></i> Admin
+        </a>
+      </div>
+      <button class="hamburger" onclick="toggleMobile()">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#" onclick="showPage('home'); toggleMobile()"><i class="fas fa-home"></i> Home</a>
+    <a href="#" onclick="showPage('check'); toggleMobile()"><i class="fas fa-search"></i> Check Warranty</a>
+    <a href="#" onclick="showPage('about'); toggleMobile()"><i class="fas fa-info-circle"></i> About Us</a>
+    <a href="#" onclick="showPage('admin'); toggleMobile()"><i class="fas fa-lock"></i> Admin</a>
+  </div>
+
+  <!-- ==================== HOME PAGE ==================== -->
+  <div id="page-home" class="page active">
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">🛡️ Trusted Since 1999</div>
+        <h1>Goyal Enterprises</h1>
+        <p class="hero-subtitle">Your Trusted Partner for Electronics &amp; Home Appliances</p>
+        <p class="hero-desc">Now track your product warranty online — anytime, anywhere!</p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary btn-lg" onclick="showPage('check')">
+            <i class="fas fa-search"></i> Check Your Warranty
+          </button>
+          <a href="tel:9416237982" class="btn btn-outline btn-lg">
+            <i class="fas fa-phone"></i> Call Us
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <h2 class="section-title">Why Choose Us?</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-certificate"></i></div>
+            <h3>25+ Years Experience</h3>
+            <p>Serving customers with quality electronics since 1999</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+            <h3>Online Warranty Tracking</h3>
+            <p>Check your product warranty status anytime online</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-headset"></i></div>
+            <h3>Best Customer Service</h3>
+            <p>Dedicated after-sales support for all products</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-tags"></i></div>
+            <h3>Best Prices</h3>
+            <p>Competitive pricing with genuine products only</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="products-section">
+      <div class="container">
+        <h2 class="section-title">We Deal In</h2>
+        <div class="products-grid">
+          <div class="product-card">
+            <i class="fas fa-car-battery"></i>
+            <span>Inverter</span>
+          </div>
+          <div class="product-card">
+            <i class="fas fa-battery-full"></i>
+            <span>Battery</span>
+          </div>
+          <div class="product-card">
+            <i class="fas fa-tint"></i>
+            <span>RO Water Purifier</span>
+          </div>
+          <div class="product-card">
+            <i class="fas fa-solar-panel"></i>
+            <span>Solar</span>
+          </div>
+          <div class="product-card">
+            <i class="fas fa-tv"></i>
+            <span>LED TV</span>
+          </div>
+          <div class="product-card">
+            <i class="fas fa-blender"></i>
+            <span>Home Appliances</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ==================== CHECK WARRANTY PAGE ==================== -->
+  <div id="page-check" class="page">
+    <section class="check-section">
+      <div class="container">
+        <div class="check-header">
+          <h2><i class="fas fa-search"></i> Check Your Warranty</h2>
+          <p>Enter your phone number or invoice number to check your product warranty status</p>
+        </div>
+        <div class="check-form-card">
+          <div class="search-tabs">
+            <button class="tab-btn active" onclick="switchTab('phone')">
+              <i class="fas fa-phone"></i> Search by Phone
+            </button>
+            <button class="tab-btn" onclick="switchTab('invoice')">
+              <i class="fas fa-file-invoice"></i> Search by Invoice
+            </button>
+          </div>
+          <form id="warrantyCheckForm" onsubmit="checkWarranty(event)">
+            <div id="phoneField" class="form-group">
+              <label><i class="fas fa-phone"></i> Phone Number</label>
+              <input type="tel" id="searchPhone" placeholder="Enter your 10-digit phone number" maxlength="10" pattern="[0-9]{10}">
+            </div>
+            <div id="invoiceField" class="form-group" style="display:none;">
+              <label><i class="fas fa-file-invoice"></i> Invoice Number</label>
+              <input type="text" id="searchInvoice" placeholder="Enter your invoice number">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+              <i class="fas fa-search"></i> Check Warranty
+            </button>
+          </form>
+        </div>
+
+        <!-- Results -->
+        <div id="warrantyResults" class="results-section" style="display:none;">
+          <h3 id="resultsTitle"></h3>
+          <div id="resultsList"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ==================== ABOUT PAGE ==================== -->
+  <div id="page-about" class="page">
+    <section class="about-section">
+      <div class="container">
+        <h2 class="section-title">About Goyal Enterprises</h2>
+        <div class="about-content">
+          <div class="about-card main-about">
+            <div class="about-icon"><i class="fas fa-store"></i></div>
+            <p>Our electronic shop is providing solutions since 1999. We are giving our best to deliver best products and best customer satisfaction.</p>
+          </div>
+          <div class="about-details">
+            <div class="about-card">
+              <h3><i class="fas fa-map-marker-alt"></i> Address</h3>
+              <p>Near Railway Station, Kund Mandi,<br>District Rewari, Haryana</p>
+            </div>
+            <div class="about-card">
+              <h3><i class="fas fa-phone-alt"></i> Contact</h3>
+              <p>
+                <a href="tel:9416237982">94162 37982</a><br>
+                <a href="tel:9729472373">97294 72373</a>
+              </p>
+            </div>
+            <div class="about-card">
+              <h3><i class="fas fa-file-alt"></i> GST Number</h3>
+              <p>06FLWPD5991R1ZT</p>
+            </div>
+            <div class="about-card">
+              <h3><i class="fas fa-boxes"></i> Products</h3>
+              <p>Inverter, Battery, RO, Solar, LED TV &amp; other Home Appliances</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ==================== ADMIN PAGE ==================== -->
+  <div id="page-admin" class="page">
+    <!-- Login Form -->
+    <div id="adminLogin" class="admin-login-section">
+      <div class="container">
+        <div class="login-card">
+          <div class="login-icon"><i class="fas fa-user-shield"></i></div>
+          <h2>Admin Login</h2>
+          <form onsubmit="adminLogin(event)">
+            <div class="form-group">
+              <label>Username</label>
+              <input type="text" id="loginUsername" required placeholder="Enter username">
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="loginPassword" required placeholder="Enter password">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+              <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+          </form>
+          <div id="loginError" class="error-msg" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="admin-dashboard" style="display:none;">
+      <div class="container">
+        <div class="dashboard-header">
+          <h2><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h2>
+          <div class="dashboard-actions">
+            <button class="btn btn-outline btn-sm" onclick="showChangePassword()">
+              <i class="fas fa-key"></i> Change Password
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="adminLogout()">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-file-alt"></i></div>
+            <div class="stat-info">
+              <span class="stat-number" id="totalWarranties">0</span>
+              <span class="stat-label">Total Warranties</span>
+            </div>
+          </div>
+          <div class="stat-card active-stat">
+            <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+            <div class="stat-info">
+              <span class="stat-number" id="activeWarranties">0</span>
+              <span class="stat-label">Active</span>
+            </div>
+          </div>
+          <div class="stat-card expired-stat">
+            <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
+            <div class="stat-info">
+              <span class="stat-number" id="expiredWarranties">0</span>
+              <span class="stat-label">Expired</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add Warranty -->
+        <div class="panel">
+          <div class="panel-header" onclick="togglePanel('addWarrantyPanel')">
+            <h3><i class="fas fa-plus-circle"></i> Add New Warranty</h3>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="panel-body" id="addWarrantyPanel" style="display:none;">
+            <form id="addWarrantyForm" onsubmit="addWarranty(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Customer Name *</label>
+                  <input type="text" id="w_customer_name" required placeholder="Customer full name">
+                </div>
+                <div class="form-group">
+                  <label>Phone Number *</label>
+                  <input type="tel" id="w_customer_phone" required placeholder="10-digit phone" maxlength="10" pattern="[0-9]{10}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Customer Address</label>
+                <input type="text" id="w_customer_address" placeholder="Customer full address">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Product Name *</label>
+                  <input type="text" id="w_product_name" required placeholder="e.g. Inverter, Battery, RO">
+                </div>
+                <div class="form-group">
+                  <label>Product Category</label>
+                  <select id="w_product_category">
+                    <option value="">Select Category</option>
+                    <option value="Inverter">Inverter</option>
+                    <option value="Battery">Battery</option>
+                    <option value="RO">RO Water Purifier</option>
+                    <option value="Solar">Solar</option>
+                    <option value="LED TV">LED TV</option>
+                    <option value="Home Appliance">Home Appliance</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Brand</label>
+                  <input type="text" id="w_product_brand" placeholder="e.g. Luminous, Exide, Kent">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Model</label>
+                  <input type="text" id="w_product_model" placeholder="Model number">
+                </div>
+                <div class="form-group">
+                  <label>Serial Number</label>
+                  <input type="text" id="w_serial_number" placeholder="Serial/barcode number">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Invoice Number *</label>
+                  <input type="text" id="w_invoice_number" required placeholder="Bill/Invoice number">
+                </div>
+                <div class="form-group">
+                  <label>Purchase Date *</label>
+                  <input type="date" id="w_purchase_date" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Warranty Period (Months) *</label>
+                  <input type="number" id="w_warranty_months" required placeholder="e.g. 12, 24, 36" min="1" max="120">
+                </div>
+                <div class="form-group">
+                  <label>Notes</label>
+                  <input type="text" id="w_notes" placeholder="Any additional notes">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Save Warranty
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- WhatsApp Share Modal -->
+        <div class="modal-overlay" id="whatsappModal" style="display:none;">
+          <div class="modal modal-sm">
+            <div class="modal-header">
+              <h3><i class="fab fa-whatsapp" style="color:#25D366"></i> Send Warranty Link</h3>
+              <button class="close-btn" onclick="closeWhatsappModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+              <p style="margin-bottom:16px;color:var(--text-light);font-size:0.9rem;">Warranty saved successfully! Send the tracking link to customer via WhatsApp.</p>
+              <div class="whatsapp-preview" id="whatsappPreview"></div>
+              <div class="modal-actions">
+                <button type="button" class="btn btn-outline" onclick="closeWhatsappModal()">Close</button>
+                <a id="whatsappSendBtn" href="#" target="_blank" class="btn btn-whatsapp">
+                  <i class="fab fa-whatsapp"></i> Send on WhatsApp
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Warranty List -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3><i class="fas fa-list"></i> All Warranties</h3>
+          </div>
+          <div class="panel-body">
+            <div class="filter-bar">
+              <input type="text" id="adminSearch" placeholder="Search by name, phone, invoice, product..." oninput="debounceSearch()">
+              <select id="statusFilter" onchange="loadWarranties()">
+                <option value="">All</option>
+                <option value="active">Active</option>
+                <option value="expired">Expired</option>
+              </select>
+            </div>
+            <div class="table-wrapper">
+              <table class="warranty-table" id="warrantyTable">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Customer</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Invoice</th>
+                    <th>Purchase Date</th>
+                    <th>Warranty Till</th>
+                    <th>Status</th>
+                    <th style="min-width:110px">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="warrantyTableBody">
+                </tbody>
+              </table>
+            </div>
+            <div id="noWarranties" class="no-data" style="display:none;">
+              <i class="fas fa-inbox"></i>
+              <p>No warranty records found</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal-overlay" id="editModal" style="display:none;">
+    <div class="modal">
+      <div class="modal-header">
+        <h3><i class="fas fa-edit"></i> Edit Warranty</h3>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="editWarrantyForm" onsubmit="updateWarranty(event)">
+          <input type="hidden" id="edit_id">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Customer Name *</label>
+              <input type="text" id="edit_customer_name" required>
+            </div>
+            <div class="form-group">
+              <label>Phone Number *</label>
+              <input type="tel" id="edit_customer_phone" required maxlength="10" pattern="[0-9]{10}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Customer Address</label>
+            <input type="text" id="edit_customer_address">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Product Name *</label>
+              <input type="text" id="edit_product_name" required>
+            </div>
+            <div class="form-group">
+              <label>Product Category</label>
+              <select id="edit_product_category">
+                <option value="">Select Category</option>
+                <option value="Inverter">Inverter</option>
+                <option value="Battery">Battery</option>
+                <option value="RO">RO Water Purifier</option>
+                <option value="Solar">Solar</option>
+                <option value="LED TV">LED TV</option>
+                <option value="Home Appliance">Home Appliance</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Brand</label>
+              <input type="text" id="edit_product_brand">
+            </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Model</label>
+              <input type="text" id="edit_product_model">
+            </div>
+            <div class="form-group">
+              <label>Serial Number</label>
+              <input type="text" id="edit_serial_number">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Invoice Number *</label>
+              <input type="text" id="edit_invoice_number" required>
+            </div>
+            <div class="form-group">
+              <label>Purchase Date *</label>
+              <input type="date" id="edit_purchase_date" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Warranty (Months) *</label>
+              <input type="number" id="edit_warranty_months" required min="1" max="120">
+            </div>
+            <div class="form-group">
+              <label>Notes</label>
+              <input type="text" id="edit_notes">
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Update
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change Password Modal -->
+  <div class="modal-overlay" id="passwordModal" style="display:none;">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h3><i class="fas fa-key"></i> Change Password</h3>
+        <button class="close-btn" onclick="closePasswordModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="changePassword(event)">
+          <div class="form-group">
+            <label>Current Password</label>
+            <input type="password" id="cp_current" required>
+          </div>
+          <div class="form-group">
+            <label>New Password</label>
+            <input type="password" id="cp_new" required minlength="6">
+          </div>
+          <div class="form-group">
+            <label>Confirm New Password</label>
+            <input type="password" id="cp_confirm" required minlength="6">
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-outline" onclick="closePasswordModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Change Password
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <h3><i class="fas fa-shield-alt"></i> Goyal Enterprises</h3>
+          <p>Near Railway Station, Kund Mandi, District Rewari, Haryana</p>
+          <p>GST: 06FLWPD5991R1ZT</p>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact Us</h4>
+          <p><a href="tel:9416237982"><i class="fas fa-phone"></i> 94162 37982</a></p>
+          <p><a href="tel:9729472373"><i class="fas fa-phone"></i> 97294 72373</a></p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Goyal Enterprises. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
