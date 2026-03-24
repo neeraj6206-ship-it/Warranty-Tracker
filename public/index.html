@@ -173,6 +173,9 @@
         <h2 class="section-title">About Goyal Enterprises</h2>
         <div class="about-content">
           <div class="about-card main-about">
+            <div class="shop-image-wrapper">
+              <img src="images/shop.jpg" alt="Goyal Enterprises Shop" loading="lazy" decoding="async" class="shop-image">
+            </div>
             <div class="about-icon"><i class="fas fa-store"></i></div>
             <p>Our electronic shop is providing solutions since 1999. We are giving our best to deliver best products and best customer satisfaction.</p>
           </div>
@@ -321,8 +324,14 @@
                   <input type="text" id="w_product_model" placeholder="Model number">
                 </div>
                 <div class="form-group">
-                  <label>Serial Number</label>
-                  <input type="text" id="w_serial_number" placeholder="Serial/barcode number">
+                  <label>Quantity *</label>
+                  <input type="number" id="w_quantity" value="1" min="1" max="50" required oninput="updateSerialFields()">
+                </div>
+              </div>
+              <div class="form-group" id="serialFieldsContainer">
+                <label>Serial Number(s)</label>
+                <div id="serialFieldsList">
+                  <input type="text" id="w_serial_number_1" placeholder="Serial/barcode number - Unit 1">
                 </div>
               </div>
               <div class="form-row">

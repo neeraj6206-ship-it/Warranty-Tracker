@@ -3,3 +3,4 @@ node_modules/
 warranty.db
 warranty.db-wal
 warranty.db-shm
+*.heic

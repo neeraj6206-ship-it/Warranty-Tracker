@@ -319,11 +319,26 @@ function debounceSearch() {
   searchTimeout = setTimeout(loadWarranties, 300);
 }
 
+// ===== Quantity & Dynamic Serial Fields =====
+function updateSerialFields() {
+  const qty = Math.max(1, Math.min(50, parseInt(document.getElementById('w_quantity').value) || 1));
+  const container = document.getElementById('serialFieldsList');
+  const existing = container.querySelectorAll('input');
+  const values = Array.from(existing).map(inp => inp.value);
+
+  let html = '';
+  for (let i = 1; i <= qty; i++) {
+    html += `<input type="text" id="w_serial_number_${i}" placeholder="Serial/barcode number - Unit ${i}" value="${escapeHtml(values[i - 1] || '')}" style="${qty > 1 ? 'margin-bottom:8px;' : ''}">`;
+  }
+  container.innerHTML = html;
+}
+
 // ===== Add Warranty =====
 async function addWarranty(e) {
   e.preventDefault();
 
-  const data = {
+  const qty = Math.max(1, parseInt(document.getElementById('w_quantity').value) || 1);
+  const baseData = {
     customer_name: document.getElementById('w_customer_name').value.trim(),
     customer_phone: document.getElementById('w_customer_phone').value.trim(),
     customer_address: document.getElementById('w_customer_address').value.trim(),
@@ -331,34 +346,49 @@ async function addWarranty(e) {
     product_category: document.getElementById('w_product_category').value,
     product_brand: document.getElementById('w_product_brand').value.trim(),
     product_model: document.getElementById('w_product_model').value.trim(),
-    serial_number: document.getElementById('w_serial_number').value.trim(),
     invoice_number: document.getElementById('w_invoice_number').value.trim(),
     purchase_date: document.getElementById('w_purchase_date').value,
     warranty_months: parseInt(document.getElementById('w_warranty_months').value),
     notes: document.getElementById('w_notes').value.trim()
   };
 
-  try {
-    const res = await fetch('/api/warranties', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Session-Id': sessionId
-      },
-      body: JSON.stringify(data)
-    });
+  // Collect serial numbers for each unit
+  const serials = [];
+  for (let i = 1; i <= qty; i++) {
+    const el = document.getElementById('w_serial_number_' + i);
+    serials.push(el ? el.value.trim() : '');
+  }
 
-    if (!res.ok) {
-      const err = await res.json();
-      return showToast(err.error, 'error');
+  try {
+    let successCount = 0;
+    for (let i = 0; i < qty; i++) {
+      const data = { ...baseData, serial_number: serials[i] };
+      const res = await fetch('/api/warranties', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Session-Id': sessionId
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        showToast(`Error adding unit ${i + 1}: ${err.error}`, 'error');
+        continue;
+      }
+      successCount++;
     }
 
-    showToast('Warranty added successfully!');
-    showWhatsappModal(data);
-    document.getElementById('addWarrantyForm').reset();
-    // Reset purchase date to today
-    document.getElementById('w_purchase_date').value = new Date().toISOString().split('T')[0];
-    loadWarranties();
+    if (successCount > 0) {
+      showToast(`${successCount} warranty record${successCount > 1 ? 's' : ''} added successfully!`);
+      showWhatsappModal({ ...baseData, serial_number: serials.join(', '), quantity: qty });
+      document.getElementById('addWarrantyForm').reset();
+      document.getElementById('w_quantity').value = '1';
+      updateSerialFields();
+      document.getElementById('w_purchase_date').value = new Date().toISOString().split('T')[0];
+      loadWarranties();
+    }
   } catch {
     showToast('Error adding warranty', 'error');
   }
@@ -542,7 +572,8 @@ function getTrackingUrl(phone) {
 
 function showWhatsappModal(data) {
   const trackUrl = getTrackingUrl(data.customer_phone);
-  const message = `Dear ${data.customer_name},\n\nThank you for your purchase from *Goyal Enterprises*!\n\nProduct: *${data.product_name}*${data.product_brand ? ' (' + data.product_brand + ')' : ''}\nWarranty: *${data.warranty_months} months*\nInvoice: ${data.invoice_number}\n\nTrack your warranty anytime:\n${trackUrl}\n\nFor any queries, contact us:\n94162 37982 / 97294 72373\n\n_Goyal Enterprises - Trusted Since 1999_`;
+  const qtyText = data.quantity && data.quantity > 1 ? `\nQuantity: *${data.quantity} units*` : '';
+  const message = `Dear ${data.customer_name},\n\nThank you for your purchase from *Goyal Enterprises*!\n\nProduct: *${data.product_name}*${data.product_brand ? ' (' + data.product_brand + ')' : ''}${qtyText}\nWarranty: *${data.warranty_months} months*\nInvoice: ${data.invoice_number}\n\nTrack your warranty anytime:\n${trackUrl}\n\nFor any queries, contact us:\n94162 37982 / 97294 72373\n\n_Goyal Enterprises - Trusted Since 1999_`;
 
   const preview = document.getElementById('whatsappPreview');
   preview.innerHTML = `<div class="wa-msg">${escapeHtml(message).replace(/\n/g, '<br>')}</div>`;

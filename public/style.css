@@ -535,6 +535,21 @@ body {
   margin-bottom: 16px;
 }
 
+.shop-image-wrapper {
+  margin-bottom: 20px;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.shop-image {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  border-radius: var(--radius);
+  display: block;
+  margin: 0 auto;
+}
+
 .main-about .about-icon {
   font-size: 2.5rem;
   color: var(--primary);
@@ -1097,4 +1112,12 @@ body {
 .form-group select:focus {
   outline: none;
   border-color: var(--primary);
+}
+
+/* Serial number fields container */
+#serialFieldsList input {
+  margin-bottom: 8px;
+}
+#serialFieldsList input:last-child {
+  margin-bottom: 0;
 }
